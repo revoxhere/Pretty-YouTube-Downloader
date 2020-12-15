@@ -2,7 +2,7 @@
 I've made it for myself because I was getting tired of ads and other pop-ups from online services.
 
 ### Demo
-![](screenshot.png)
+![](Screenshot_20201215_112246.png)
 
 ### Dependencies
 * youtube-dl
