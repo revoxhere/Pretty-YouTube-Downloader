@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-## revox's youtube downloader (v0.2)
+## revox's youtube downloader (v0.3)
 ## https://github.com/revoxhere/youtube-downloader
 from __future__ import unicode_literals
 from tkinter import *
@@ -91,7 +91,7 @@ def flac():
 
 def mp3low():
     global ydl_opts, preset
-    preset = "MP3 Low (64kbps)"
+    preset = "MP3 Low (96kbps)"
     ydl_opts = {
         'format': 'bestaudio/best',
         'quiet': 'true',
@@ -99,7 +99,7 @@ def mp3low():
         'postprocessors': [{
             'key': 'FFmpegExtractAudio',
             'preferredcodec': 'mp3',
-            'preferredquality': '64',
+            'preferredquality': '96',
         }],
     }
     download()
@@ -140,27 +140,27 @@ def download():
     print(url)
     if url:
         try:
-            label = Label(roots, text = "                                                                                                                                    ", bg="white", font=("Arial", 9)).place(relx = 0.5, rely = 0.8, anchor = CENTER)
+            label = Label(roots, text = " "*100, bg="white", font=("Arial", 12)).grid(row=4, columnspan=3, column=0, padx=2, pady=2)
             roots.update_idletasks()
-            label = Label(roots, text = "Downloading using "+preset+" preset.", bg="white", font=("Arial", 9)).place(relx = 0.5, rely = 0.8, anchor = CENTER)
+            label = Label(roots, text = "Downloading using "+preset+" preset.", bg="white",foreground="#60a3bc", font=("Arial", 12)).grid(row=4, columnspan=3, column=0, padx=2, pady=2)
             roots.update_idletasks()
 
             with youtube_dl.YoutubeDL(ydl_opts) as ydl:
                 ydl.download([str(url)])
                     
-            label = Label(roots, text = "                                                                                                             ", bg="white", font=("Arial", 9)).place(relx = 0.5, rely = 0.8, anchor = CENTER)
+            label = Label(roots, text = " "*100, bg="white", font=("Arial", 12)).grid(row=4, columnspan=3, column=0, padx=2, pady=2)
             roots.update_idletasks()
-            label = Label(roots, text = "Done!", bg="white", font=("Arial", 9)).place(relx = 0.5, rely = 0.8, anchor = CENTER)
+            label = Label(roots, text = "Done!", bg="white",foreground="#009432", font=("Arial", 12)).grid(row=4, columnspan=3, column=0, padx=2, pady=2)
             roots.update_idletasks()
         except:
-            label = Label(roots, text = "                                                                                                           ", bg="white", font=("Arial", 9)).place(relx = 0.5, rely = 0.8, anchor = CENTER)
+            label = Label(roots, text = " "*100, bg="white", font=("Arial", 12)).grid(row=4, columnspan=3, column=0, padx=2, pady=2)
             roots.update_idletasks()
-            label = Label(roots, text = "Error! Check the URL!", bg="white", font=("Arial", 9)).place(relx = 0.5, rely = 0.8, anchor = CENTER)
+            label = Label(roots, text = "Error! Check the URL!", bg="white", foreground="#e55039", font=("Arial", 12)).grid(row=4, columnspan=3, column=0, padx=2, pady=2)
             roots.update_idletasks()
     else:
-        label = Label(roots, text = "                                                                                                                        ", bg="white", font=("Arial", 9)).place(relx = 0.5, rely = 0.8, anchor = CENTER)
+        label = Label(roots, text = " "*100, bg="white", font=("Arial", 12)).grid(row=4, columnspan=3, column=0, padx=2, pady=2)
         roots.update_idletasks()
-        label = Label(roots, text = "Error! URL box is empty!", bg="white", font=("Arial", 9)).place(relx = 0.5, rely = 0.8, anchor = CENTER)
+        label = Label(roots, text = "Error! URL box is empty!", foreground="#e55039", bg="white", font=("Arial", 12)).grid(row=4, columnspan=3, column=0, padx=2, pady=2)
         roots.update_idletasks()
     urlbutton.delete(0, END)
     roots.update_idletasks()
@@ -186,27 +186,25 @@ def roots():
         roots = Tk() #register window
         roots.title('revox\'s youtube downloader')
         roots.configure(background='white')
-        roots.geometry("500x200")
 
-        label = Label(roots, text="URL:", bg="white", fg="#7f8fa6", font = 'Arial',).place(relx = 0.1, rely = 0.1, anchor = CENTER)
+        label = Label(roots, text="Provide Video URL:", bg="white", fg="#3c6382", font = 'Arial').grid(row=0, column=0, padx=2, pady=2)
+        urlbutton = Entry(roots, background="#FAFAFA", foreground="#000000")
+        urlbutton.grid(row=0, column=1, padx=2, pady=2)
+        grab = Button(roots, text='Paste from clipboard', command=paste, bg="white", font = 'Arial', fg="#546de5", width=15).grid(row=0, column=2, padx=2, pady=2)
 
-        urlbutton = Entry(roots, width = 47)
-        urlbutton.place(relx = 0.5, rely = 0.1, anchor = CENTER)
+        mp3low = Button(roots, text='MP3 Medium (96)', command=mp3low, bg="#f6b93b", font = 'Arial', fg="white", width=15).grid(row=1, column=0, padx=2, pady=2)
+        mp3medium = Button(roots, text='MP3 High (196)', command=mp3medium, bg="#78e08f", font = 'Arial', fg="white", width=15).grid(row=1, column=1, padx=2, pady=2)
+        mp3high = Button(roots, text='MP3 Very High (328)', command=mp3high, bg="#009432", font = 'Arial', fg="white", width=15).grid(row=1, column=2, padx=2, pady=2)
 
-        grab = Button(roots, text='Paste!', command=paste, bg="white", font = 'Arial', fg="#44bd32", height = 1, width = 3).place(relx = 0.91, rely = 0.1, anchor = CENTER)
+        flac = Button(roots, text='Flac Max', command=flac, bg="#D980FA", font = 'Arial', fg="white", width=15).grid(row=2, column=0, padx=2, pady=2)
+        aac = Button(roots, text='AAC Max', command=aac, bg="#0652DD", font = 'Arial', fg="white", width=15).grid(row=2, column=1, padx=2, pady=2)
+        wav = Button(roots, text='WAV Max', command=wav, bg="#6F1E51", font = 'Arial', fg="white", width=15).grid(row=2, column=2, padx=2, pady=2)
 
-        mp3low = Button(roots, text='MP3 Low', command=mp3low, bg="#c0392b", font = 'Arial', fg="white", width=15).place(relx = 0.2, rely = 0.3, anchor = CENTER)
-        mp3medium = Button(roots, text='MP3 Medium', command=mp3medium, bg="#f39c12", font = 'Arial', fg="white", width=15).place(relx = 0.5, rely = 0.3, anchor = CENTER)
-        mp3high = Button(roots, text='MP3 High', command=mp3high, bg="#6ab04c", font = 'Arial', fg="white", width=15).place(relx = 0.8, rely = 0.3, anchor = CENTER)
-
-        flac = Button(roots, text='Flac Max', command=flac, bg="#00b894", font = 'Arial', fg="white", width=15).place(relx = 0.2, rely = 0.47, anchor = CENTER)
-        aac = Button(roots, text='AAC Max', command=aac, bg="#00b894", font = 'Arial', fg="white", width=15).place(relx = 0.5, rely = 0.47, anchor = CENTER)
-        wav = Button(roots, text='WAV Max', command=wav, bg="#00b894", font = 'Arial', fg="white", width=15).place(relx = 0.8, rely = 0.47, anchor = CENTER)
-
-        mp4 = Button(roots, text='MP4 Video', command=mp4, bg="#0097e6", font = 'Arial', fg="white", width=15).place(relx = 0.2, rely = 0.64, anchor = CENTER)
-        mkv = Button(roots, text='MKV Video', command=mkv, bg="#0097e6", font = 'Arial', fg="white", width=15).place(relx = 0.5, rely = 0.64, anchor = CENTER)
-        webm = Button(roots, text='WEBM Video', command=webm, bg="#0097e6", font = 'Arial', fg="white", width=15).place(relx = 0.8, rely = 0.64, anchor = CENTER)
+        mp4 = Button(roots, text='MP4 Video', command=mp4, bg="#C4E538", font = 'Arial', fg="white", width=15).grid(row=3, column=0, padx=2, pady=2)
+        mkv = Button(roots, text='MKV Video', command=mkv, bg="#e15f41", font = 'Arial', fg="white", width=15).grid(row=3, column=1, padx=2, pady=2)
+        webm = Button(roots, text='WEBM Video', command=webm, bg="#0097e6", font = 'Arial', fg="white", width=15).grid(row=3, column=2, padx=2, pady=2)
         
+        label = Label(roots, text = " "*100, bg="white", font=("Arial", 12)).grid(row=4, columnspan=3, column=0, padx=2, pady=2)
         roots.mainloop()
 
 roots()
